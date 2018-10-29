@@ -11,6 +11,8 @@ import Login from './views/Login'
 import Home from './views/Home'
 import './App.css'
 import RobotsWars from './contracts/Robots.json'
+import * as config from './config'
+
 
 class App extends Component {
   constructor() {
@@ -20,12 +22,12 @@ class App extends Component {
       name: ''
     }
     this.provider = new providers.JsonRpcProvider('https://ropsten.infura.io/v3/dc1be3b516c34da9a010daed42daa947')
-    this.sdk = new EthereumIdentitySDK('http://6fa1c2dd.ngrok.io', this.provider)
-    this.robotsWarsContractAddress = '0xc545cc75415e397fa3e52e90f738d11e485ce69b'
+    this.sdk = new EthereumIdentitySDK(config.RELAYER_HOST, this.provider)
+      this.robotsWarsContractAddress = config.NFT_CONTRACT;
     this.robotsWarsContract = new Contract(
-      this.robotsWarsContractAddress,
-      RobotsWars.abi,
-      this.provider
+	this.robotsWarsContractAddress,
+	RobotsWars.abi,
+	this.provider
     )
     const identity = localStorage.getItem("identity")
     if (identity) {
@@ -68,7 +70,7 @@ class App extends Component {
         name: ensDomain,
         address,
         privateKey
-      })
+      });
     }
     localStorage.setItem('identity', JSON.stringify(this.identity))
     this.props.history.push('/')
